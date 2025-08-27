@@ -1,2 +1,4 @@
 .turbo
+.turbo-docker
+.turbo-prune
 node_modules
