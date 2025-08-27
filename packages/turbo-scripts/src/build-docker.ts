@@ -22,7 +22,16 @@ export async function buildDocker({
   await execa('rm', ['-rf', distDir], { cwd: rootDir });
   await execa(
     packageManager,
-    ['turbo', 'prune', `--out-dir=${distDir}`, `--docker`, `--use-gitignore=false`, pkgName],
+    [
+      packageManager === 'npm' ? 'exec' : null,
+      'turbo',
+      'prune',
+      packageManager === 'npm' ? '--' : null,
+      `--out-dir=${distDir}`,
+      `--docker`,
+      `--use-gitignore=false`,
+      pkgName,
+    ].filter(Boolean),
     {
       cwd: rootDir,
     },
