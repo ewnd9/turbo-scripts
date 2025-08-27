@@ -37,12 +37,15 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: read
+      contents: write
       id-token: write
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          # lerna
+          fetch-depth: 0
 
       - name: Enable corepack
         run: corepack enable
@@ -63,7 +66,15 @@ jobs:
         # TODO: OIDC requires npm >=11.5.1.
         run: npm --version && npm install -g npm@11
 
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
       # https://docs.npmjs.com/generating-provenance-statements#example-github-actions-workflow
       # https://docs.npmjs.com/trusted-publishers
       - name: Run pnpm publish
-        run: pnpm publish --recursive --tag latest --access public --no-git-checks
+        run: |
+          pnpm packages:version
+          pnpm packages:publish
+          git push --follow-tags
