@@ -1,0 +1,17 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "dist/**", "tsconfig.tsbuildinfo", ".turbo-docker/**"]
+    },
+    "typecheck": {
+      "dependsOn": [],
+      "outputs": []
+    },
+    "containerize": {
+      "dependsOn": ["build", "^containerize"],
+      "outputs": []
+    }
+  }
+}
