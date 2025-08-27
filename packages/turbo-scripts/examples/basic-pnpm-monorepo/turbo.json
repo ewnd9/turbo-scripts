@@ -3,14 +3,10 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", "tsconfig.tsbuildinfo"]
+      "outputs": ["dist/**", ".turbo-docker/**"]
     },
     "typecheck": {
       "dependsOn": [],
-      "outputs": []
-    },
-    "test": {
-      "dependsOn": ["build"],
       "outputs": []
     }
   }
