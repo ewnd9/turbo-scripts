@@ -23,10 +23,11 @@ $ pnpm add @ewnd9/turbo-scripts -D
 
 ### 1. Configure Git Ignore
 
-Add the temporary pruning directory to your `.gitignore`:
+Add the temporary pruning directories to your `.gitignore`:
 
 ```gitignore
-.tmp-turbo-prune
+.turbo-docker
+.turbo-prune
 ```
 
 ### 2. Update Turbo Configuration

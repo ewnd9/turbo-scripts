@@ -35,28 +35,20 @@ test.each(['basic-pnpm-monorepo', 'basic-yarn-monorepo'])(
       tool: { type: packageManager },
     } = await getPackages(tmpDir);
 
-    const $ = execa({ shell: true });
-    await $('git init', {
-      cwd: tmpDir,
-    });
-    await $('git config user.email "ci@example.com"', {
-      cwd: tmpDir,
-    });
-    await $('git config user.name "ci"', {
-      cwd: tmpDir,
-    });
-    await $('git add .', {
-      cwd: tmpDir,
-    });
-    await $('git commit -m "init"', {
-      cwd: tmpDir,
-    });
-    await $(`${packageManager} install`, {
-      cwd: tmpDir,
-    });
-    await $('turbo run build', {
-      cwd: tmpDir,
-    });
+    for (const cmd of [
+      'git init',
+      'git config user.email "ci@example.com"',
+      'git config user.name "ci"',
+      'git add .',
+      'git commit -m "init"',
+      `${packageManager} install`,
+      `${packageManager} turbo run build`,
+    ]) {
+      await execa(cmd, {
+        cwd: tmpDir,
+        shell: true,
+      });
+    }
 
     const pkgName = `turbo-scripts-example-basic-${packageManager}-monorepo-service`;
     const cwd = `${tmpDir}/packages/service`;
@@ -88,12 +80,16 @@ test.each(['basic-pnpm-monorepo', 'basic-yarn-monorepo'])(
     expect(run1.hash).toEqual(run0.hash);
     expect(run1.image).toEqual(run0.image);
 
-    await $('sed -i -e "s/Hello World/Updated Code/g" packages/service/index.js', {
-      cwd: tmpDir,
-    });
-    await $('turbo run build', {
-      cwd: tmpDir,
-    });
+    for (const cmd of [
+      'sed -i -e "s/Hello World/Updated Code/g" packages/service/index.js',
+      `${packageManager} turbo run build`,
+    ]) {
+      await execa(cmd, {
+        cwd: tmpDir,
+        shell: true,
+      });
+    }
+
     const run2 = await buildDocker({
       pkgName,
       packageManager,

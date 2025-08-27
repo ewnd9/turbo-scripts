@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 import { execa } from 'execa';
 import { globby } from 'globby';
-import { $, cd } from 'zx';
 
 export async function buildDocker({
   pkgName,
@@ -19,13 +18,45 @@ export async function buildDocker({
 
   const { rootDir, gitSha, gitIsDirty } = await getGitStats(cwd);
 
-  cd(rootDir);
-  const distDir = `.tmp-turbo-prune/${pkgName}`;
-  await $`rm -rf ${distDir}`;
-  await $`${packageManager} turbo prune --out-dir=${distDir} --docker --use-gitignore=false ${pkgName}`;
+  const distDir = `.turbo-prune/${pkgName}`;
+  await execa('rm', ['-rf', distDir], { cwd: rootDir });
+  await execa(
+    packageManager,
+    ['turbo', 'prune', `--out-dir=${distDir}`, `--docker`, `--use-gitignore=false`, pkgName],
+    {
+      cwd: rootDir,
+    },
+  );
   await deleteDevDependencies(`${rootDir}/${distDir}/json`);
   const dockerFile = `${cwd}/turbo.Dockerfile`;
-  await $`docker build --platform linux/amd64 --build-arg DIST_DIR=${distDir} --push -f ${dockerFile} -t ${image} --label "GIT_SHA=${gitSha}" --label "GIT_DIRTY=${gitIsDirty}" .`;
+  await execa(
+    'docker',
+    [
+      'build',
+      // in case we are building on macOS
+      '--platform',
+      'linux/amd64',
+      // used for caching, see reference turbo.Dockerfile
+      '--build-arg',
+      `DIST_DIR=${distDir}`,
+      //
+      '--push',
+      //
+      '--file',
+      dockerFile,
+      //
+      '--tag',
+      image,
+      //
+      '--label',
+      `GIT_SHA=${gitSha}`,
+      //
+      '--label',
+      `GIT_DIRTY=${gitIsDirty}`,
+      '.',
+    ],
+    { cwd: rootDir },
+  );
 
   return {
     hash,

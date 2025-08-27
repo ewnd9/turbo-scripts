@@ -5,12 +5,11 @@
       "**",
       "!node_modules/*",
       "!**/node_modules/*",
-      "!tmp-turbo-prune/*",
+      "!**/.turbo/*",
+      "!**/.turbo-prune/*",
+      "!**/.turbo-docker/*",
       "!**/.next/*",
-      "!**/build/*",
-      "!**/dist/*",
-      "!**/archive/*",
-      "!**/sessions/*"
+      "!**/dist/*"
     ]
   },
   "linter": {
