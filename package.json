@@ -4,12 +4,16 @@
   "private": true,
   "scripts": {
     "lint": "biome check ./ --write",
+    "packages:version": "lerna version --conventional-commits --yes",
+    "packages:publish": "pnpm publish --recursive --tag latest --access public --no-git-checks",
     "prepare": "husky"
   },
   "license": "MIT",
   "packageManager": "pnpm@10.15.0",
   "devDependencies": {
     "@biomejs/biome": "^2.2.2",
+    "@lerna-lite/cli": "^4.7.2",
+    "@lerna-lite/version": "^4.7.2",
     "@types/node": "^22.18.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.5",
