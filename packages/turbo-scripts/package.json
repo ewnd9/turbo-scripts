@@ -1,9 +1,13 @@
 {
   "name": "@ewnd9/turbo-scripts",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "",
   "type": "module",
   "bin": "./dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ewnd9/turbo-scripts.git"
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "build": "rm -rf dist && tsc",

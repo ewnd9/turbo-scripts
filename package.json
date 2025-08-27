@@ -1,6 +1,7 @@
 {
   "name": "turbo-scripts-monorepo",
   "version": "0.0.0-monorepo",
+  "private": true,
   "scripts": {
     "lint": "biome check ./ --write",
     "prepare": "husky"
