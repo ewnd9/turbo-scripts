@@ -31,3 +31,39 @@ jobs:
 
       - name: Run turbo
         run: SKIP_ENV_VALIDATION=true pnpm turbo --env-mode=loose typecheck build test
+  publish:
+    if: github.ref == 'refs/heads/main'
+    needs: lint-and-typecheck
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run turbo
+        run: SKIP_ENV_VALIDATION=true pnpm turbo --env-mode=loose typecheck build
+
+      - name: Re-install npm
+        # TODO: OIDC requires npm >=11.5.1.
+        run: npm --version && npm install -g npm@11
+
+      # https://docs.npmjs.com/generating-provenance-statements#example-github-actions-workflow
+      # https://docs.npmjs.com/trusted-publishers
+      - name: Run pnpm publish
+        run: pnpm publish --recursive --tag latest --access public --no-git-checks
