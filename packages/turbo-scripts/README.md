@@ -1,5 +1,7 @@
 # `@ewnd9/turbo-scripts`
 
+![NPM Version](https://img.shields.io/npm/v/%40ewnd9%2Fturbo-scripts)
+
 Streamlined Docker image building for Turborepo monorepos with intelligent caching and optimization.
 
 ## Features

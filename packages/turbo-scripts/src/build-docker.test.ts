@@ -8,7 +8,7 @@ import { GenericContainer } from 'testcontainers';
 import { expect, onTestFinished, test } from 'vitest';
 import { buildDocker } from './build-docker.js';
 
-test.each(['basic-pnpm-monorepo', 'basic-yarn-monorepo'])(
+test.each(['basic-pnpm-monorepo', 'basic-yarn-monorepo', 'basic-bun-monorepo', 'basic-npm-monorepo'])(
   'setup %s',
   {
     timeout: 180000,
@@ -42,7 +42,7 @@ test.each(['basic-pnpm-monorepo', 'basic-yarn-monorepo'])(
       'git add .',
       'git commit -m "init"',
       `${packageManager} install`,
-      `${packageManager} turbo run build`,
+      `${packageManager} ${packageManager === 'npm' ? 'exec' : ''} turbo run build`,
     ]) {
       await execa(cmd, {
         cwd: tmpDir,
@@ -82,7 +82,7 @@ test.each(['basic-pnpm-monorepo', 'basic-yarn-monorepo'])(
 
     for (const cmd of [
       'sed -i -e "s/Hello World/Updated Code/g" packages/service/index.js',
-      `${packageManager} turbo run build`,
+      `${packageManager} ${packageManager === 'npm' ? 'exec' : ''} turbo run build`,
     ]) {
       await execa(cmd, {
         cwd: tmpDir,
