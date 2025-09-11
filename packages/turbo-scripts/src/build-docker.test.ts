@@ -60,6 +60,7 @@ test.each(['basic-pnpm-monorepo', 'basic-yarn-monorepo', 'basic-bun-monorepo', '
       packageManager,
       cwd,
       imagePrefix,
+      silent: true,
     });
 
     const serviceContainer0 = await new GenericContainer(run0.image).withExposedPorts(3000).start();
@@ -76,6 +77,7 @@ test.each(['basic-pnpm-monorepo', 'basic-yarn-monorepo', 'basic-bun-monorepo', '
       packageManager,
       cwd,
       imagePrefix,
+      silent: true,
     });
     expect(run1.hash).toEqual(run0.hash);
     expect(run1.image).toEqual(run0.image);
@@ -95,6 +97,7 @@ test.each(['basic-pnpm-monorepo', 'basic-yarn-monorepo', 'basic-bun-monorepo', '
       packageManager,
       cwd,
       imagePrefix,
+      silent: true,
     });
     expect(run2.hash).not.toEqual(run0.hash);
     expect(run2.image).not.toEqual(run0.image);

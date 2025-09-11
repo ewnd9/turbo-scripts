@@ -24,5 +24,6 @@ async function main() {
     packageManager,
     cwd,
     imagePrefix: process.argv[2]!,
+    silent: process.argv.includes('--silent'),
   });
 }

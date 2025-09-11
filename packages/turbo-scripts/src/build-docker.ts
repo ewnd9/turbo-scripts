@@ -7,11 +7,13 @@ export async function buildDocker({
   cwd,
   imagePrefix,
   packageManager,
+  silent,
 }: {
   pkgName: string;
   cwd: string;
   imagePrefix: string;
   packageManager: string;
+  silent: boolean;
 }) {
   const hash = fs.readFileSync(`${cwd}/.turbo-docker/hash`, 'utf-8').trim();
   const image = `${imagePrefix}/${pkgName}:${hash}`;
@@ -64,7 +66,7 @@ export async function buildDocker({
       `GIT_DIRTY=${gitIsDirty}`,
       '.',
     ],
-    { cwd: rootDir },
+    { cwd: rootDir, ...(!silent && { stdio: 'inherit' }) },
   );
 
   return {
