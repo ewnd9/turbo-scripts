@@ -66,7 +66,7 @@ export async function buildDocker({
       `GIT_DIRTY=${gitIsDirty}`,
       '.',
     ],
-    { cwd: rootDir, ...(!silent && { stdio: 'inherit' }) },
+    { cwd: rootDir, stdio: silent ? 'ignore' : 'inherit' },
   );
 
   return {
