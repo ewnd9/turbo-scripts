@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { Builtins, Cli } from 'clipanion';
+import { BuildCommand } from './build/build.command.js';
 import { BuildDockerCommand } from './build-docker/build-docker.command.js';
 
 main().catch((err) => {
@@ -20,6 +21,7 @@ async function main() {
   cli.register(Builtins.HelpCommand);
   cli.register(Builtins.VersionCommand);
 
+  cli.register(BuildCommand);
   cli.register(BuildDockerCommand);
 
   cli.runExit(args);
