@@ -27,7 +27,7 @@ test.each(['basic-pnpm-monorepo', 'basic-yarn-monorepo', 'basic-bun-monorepo', '
     });
 
     const __dirname = dirname(fileURLToPath(import.meta.url));
-    await fs.cp(`${__dirname}/../examples/${exampleDirectory}`, tmpDir, {
+    await fs.cp(`${__dirname}/../../examples/${exampleDirectory}`, tmpDir, {
       recursive: true,
     });
 

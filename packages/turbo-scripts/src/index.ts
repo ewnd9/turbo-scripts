@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
-import { getPackages } from '@manypkg/get-packages';
-import { cleanEnv, str } from 'envalid';
-import { buildDocker } from './build-docker.js';
+import { Builtins, Cli } from 'clipanion';
+import { BuildDockerCommand } from './build-docker/build-docker.command.js';
 
 main().catch((err) => {
   console.error(err);
@@ -10,20 +9,18 @@ main().catch((err) => {
 });
 
 async function main() {
-  const { npm_package_name: pkgName } = cleanEnv(process.env, {
-    npm_package_name: str(),
+  const [node, app, ...args] = process.argv;
+
+  const cli = new Cli({
+    binaryLabel: `turbo-scripts`,
+    binaryName: `${node} ${app}`,
+    binaryVersion: `1.0.0`,
   });
 
-  const cwd = process.cwd();
-  const {
-    tool: { type: packageManager },
-  } = await getPackages(cwd);
+  cli.register(Builtins.HelpCommand);
+  cli.register(Builtins.VersionCommand);
 
-  await buildDocker({
-    pkgName,
-    packageManager,
-    cwd,
-    imagePrefix: process.argv[2]!,
-    silent: process.argv.includes('--silent'),
-  });
+  cli.register(BuildDockerCommand);
+
+  cli.runExit(args);
 }
