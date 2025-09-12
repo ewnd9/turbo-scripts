@@ -1,6 +1,6 @@
 import { getPackages } from '@manypkg/get-packages';
 import { Command, Option } from 'clipanion';
-import { cleanEnv, str } from 'envalid';
+import { bool, cleanEnv, str } from 'envalid';
 
 export class BuildDockerCommand extends Command {
   name = Option.String();
@@ -10,7 +10,13 @@ export class BuildDockerCommand extends Command {
   async execute() {
     const env = cleanEnv(process.env, {
       npm_package_name: str(),
+      TURBO_SCRIPTS_DEPLOY_KILL_SWITCH: bool({ default: false }),
     });
+
+    if (env.TURBO_SCRIPTS_DEPLOY_KILL_SWITCH) {
+      console.error(`TURBO_SCRIPTS_DEPLOY_KILL_SWITCH activated, exit 1`);
+      process.exit(1);
+    }
 
     const cwd = process.cwd();
     const {

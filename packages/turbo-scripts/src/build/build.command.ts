@@ -1,5 +1,5 @@
 import { Command, Option } from 'clipanion';
-import { cleanEnv, str } from 'envalid';
+import { bool, cleanEnv, str } from 'envalid';
 
 export class BuildCommand extends Command {
   silent = Option.Boolean('--silent', { required: false });
@@ -16,7 +16,13 @@ export class BuildCommand extends Command {
   async execute() {
     const env = cleanEnv(process.env, {
       TURBO_HASH: str(),
+      TURBO_SCRIPTS_DEPLOY_KILL_SWITCH: bool({ default: false }),
     });
+
+    if (env.TURBO_SCRIPTS_DEPLOY_KILL_SWITCH) {
+      console.error(`TURBO_SCRIPTS_DEPLOY_KILL_SWITCH activated, exit 1`);
+      process.exit(1);
+    }
 
     const { build } = await import('./build.js');
     await build({
