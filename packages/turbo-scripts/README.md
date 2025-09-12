@@ -60,7 +60,7 @@ Add containerization to your service's `package.json`:
 {
   "name": "my-service",
   "scripts": {
-    "build": "tsc && mkdir -p .turbo-docker && echo $TURBO_HASH > .turbo-docker/hash",
+    "build": "turbo-scripts build -- tsc",
     "containerize": "turbo-scripts build:docker registry.io/my-org"
   }
 }
