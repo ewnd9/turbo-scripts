@@ -1,0 +1,14 @@
+{
+  "name": "service",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node ./",
+    "build": "turbo-scripts build -- echo skip",
+    "containerize": "turbo-scripts build:docker --dockerfile $TURBO_SCRIPTS_DOCKERFILE $TURBO_SCRIPTS_REGISTRY_PREFIX"
+  },
+  "devDependencies": {
+    "@ewnd9/turbo-scripts": "^0.2.4"
+  }
+}

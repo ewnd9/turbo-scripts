@@ -5,6 +5,10 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".turbo-docker/**"]
     },
+    "containerize": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
     "typecheck": {
       "dependsOn": [],
       "outputs": []

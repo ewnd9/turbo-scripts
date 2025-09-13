@@ -1,0 +1,11 @@
+package-lock.json
+.yarn
+yarn.lock
+pnpm-lock.yaml
+bun.lock
+
+.turbo
+.turbo-docker
+.turbo-prune
+
+node_modules

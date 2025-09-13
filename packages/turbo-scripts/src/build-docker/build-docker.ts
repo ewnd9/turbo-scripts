@@ -6,12 +6,14 @@ export async function buildDocker({
   pkgName,
   cwd,
   imagePrefix,
+  dockerfileName,
   packageManager,
   silent,
 }: {
   pkgName: string;
   cwd: string;
   imagePrefix: string;
+  dockerfileName: string;
   packageManager: string;
   silent: boolean;
 }) {
@@ -39,7 +41,7 @@ export async function buildDocker({
     },
   );
   await deleteDevDependencies(`${rootDir}/${distDir}/json`);
-  const dockerFile = `${cwd}/turbo.Dockerfile`;
+  const dockerFile = `${cwd}/${dockerfileName}`;
   await execa(
     'docker',
     [
