@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./",
     "build": "turbo-scripts build -- echo skip",
-    "containerize": "turbo-scripts build:docker --dockerfile $TURBO_SCRIPTS_DOCKERFILE $TURBO_SCRIPTS_REGISTRY_PREFIX"
+    "containerize": "turbo-scripts build:docker --dockerfile $TURBO_SCRIPTS_DOCKERFILE --image-prefix $TURBO_SCRIPTS_REGISTRY_PREFIX"
   },
   "devDependencies": {
     "@ewnd9/turbo-scripts": "^0.2.4"

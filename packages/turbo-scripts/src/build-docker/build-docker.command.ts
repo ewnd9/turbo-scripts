@@ -3,9 +3,9 @@ import { Command, Option } from 'clipanion';
 import { bool, cleanEnv, str } from 'envalid';
 
 export class BuildDockerCommand extends Command {
-  name = Option.String();
   silent = Option.Boolean('--silent', false);
   dockerfileName = Option.String('--dockerfile', 'Dockerfile');
+  imagePrefix = Option.String('--image-prefix');
   static paths = [[`build:docker`]];
 
   async execute() {
@@ -29,7 +29,7 @@ export class BuildDockerCommand extends Command {
       pkgName: env.npm_package_name,
       packageManager,
       cwd,
-      imagePrefix: this.name,
+      imagePrefix: this.imagePrefix,
       silent: this.silent,
       dockerfileName: this.dockerfileName,
     });
