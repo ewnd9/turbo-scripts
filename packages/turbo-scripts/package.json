@@ -3,7 +3,9 @@
   "version": "0.2.4",
   "description": "",
   "type": "module",
-  "bin": "./dist/index.js",
+  "bin": {
+    "turbo-scripts": "./cli.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ewnd9/turbo-scripts.git"
@@ -26,8 +28,10 @@
     "globby": "^14.1.0"
   },
   "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.18.0",
     "axios": "^1.11.0",
+    "js-yaml": "^4.1.0",
     "testcontainers": "^11.5.1",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"

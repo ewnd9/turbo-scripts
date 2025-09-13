@@ -4,7 +4,8 @@ import { bool, cleanEnv, str } from 'envalid';
 
 export class BuildDockerCommand extends Command {
   name = Option.String();
-  silent = Option.Boolean('--silent', { required: false });
+  silent = Option.Boolean('--silent', false);
+  dockerfileName = Option.String('--dockerfile', 'Dockerfile');
   static paths = [[`build:docker`]];
 
   async execute() {
@@ -30,6 +31,7 @@ export class BuildDockerCommand extends Command {
       cwd,
       imagePrefix: this.name,
       silent: this.silent,
+      dockerfileName: this.dockerfileName,
     });
   }
 }

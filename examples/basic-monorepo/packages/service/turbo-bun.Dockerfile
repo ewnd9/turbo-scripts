@@ -14,4 +14,4 @@ RUN bun install
 COPY ${DIST_DIR}/full .
 
 EXPOSE 3000
-CMD ["dumb-init", "node", "packages/service/index.js"]
+CMD ["dumb-init", "bun", "packages/service/index.js"]
